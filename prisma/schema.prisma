@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Plan {
+  FREE
+  ENTERPRISE
+  PRO
+}
+
+enum UserRole {
+  MEMBER
+  SUPERADMIN
+  TENANTADMIN
+  VIEWER
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE 
+  DELETE
+  VIEW
+}
+
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  plan      Plan   @default(FREE)
+  createdAt DateTime @default(now())
+  users     User[]
+  projects Project[]
+}
+
+model User {
+  id       String @id @default(uuid())
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  email String @unique
+  role UserRole @default(MEMBER)
+  createdAt DateTime @default(now())
+  projects Project[]
+}
+
+
+model Project {
+  id String @id @default(uuid())
+  tenantId String
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name String
+  description String?
+  createdBy String
+  user User @relation(fields: [createdBy], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model AuditLog {
+  id String @id @default(uuid())
+  tenantId String
+  userId String
+  userEmail String
+  userRole String   //at time of action
+  action AuditAction
+  resource String //table name
+  resourceId String?
+  oldValues Json
+  newValues Json
+  ipAddress String? @db.Inet
+  userAgent String?
+  createdAt DateTime @default(now())
+}
