@@ -8,7 +8,7 @@ const ROLE_HIERACHY = {
     Viewer: 1,
 }
 
-
+//requireRole('TenantAdmin') - user must be TenantAdmin or higher to access the route
 export function requireRole(...roles: Array<keyof typeof ROLE_HIERACHY>){
     return (req:Request, res:Response, next:NextFunction) => {
         const userRole = req.user?.role as keyof typeof ROLE_HIERACHY | undefined;

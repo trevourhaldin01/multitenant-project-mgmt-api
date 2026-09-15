@@ -1,9 +1,7 @@
 import {z} from 'zod';
 
 export const createProjectSchema = z.object({
-    tenantId: z.string(),
     name: z.string(),
-    createdBy: z.string(),
     description: z.string().optional()
 });
 

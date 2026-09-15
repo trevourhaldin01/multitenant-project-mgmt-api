@@ -1,3 +1,4 @@
+import { Prisma } from "../../generated/prisma/client";
 import prisma from "../../lib/prisma";
 import { createProjectDto, updateProjectDto } from "../schemas/project.schema";
 
@@ -15,13 +16,13 @@ async function getProject(id:string, tenantId:string){
 }
 
 //create project
-async function createProject(data:createProjectDto) {
+async function createProject(data: Prisma.ProjectCreateManyInput) {
     const project = await prisma.project.create({data})
     return project
 }
 
 //update project
-async function updateProject(id:string,tenantId:string,data:updateProjectDto){
+async function updateProject(id:string,tenantId:string,data: Prisma.ProjectUpdateInput){
     const project = await prisma.project.update({where:{id,tenantId},data})
     return project;
 }

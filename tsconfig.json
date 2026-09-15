@@ -47,6 +47,8 @@
     "module": "ESNext",
     "moduleResolution":"bundler",
     "target":"ES2023",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     "strict": true,
     "esModuleInterop": true,
     "ignoreDeprecations": "6.0",
