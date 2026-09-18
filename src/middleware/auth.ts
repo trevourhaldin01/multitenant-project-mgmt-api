@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 declare global {
     namespace Express {
@@ -41,6 +41,7 @@ export const authMiddleware = (req:Request,res:Response,next:NextFunction) => {
         }
         return next()
     } catch (error) {
+        console.log(error)
         return res.status(401).json({ error: 'Invalid or expired token' })
     }
 }

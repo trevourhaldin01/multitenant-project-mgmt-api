@@ -79,7 +79,7 @@ router.post('/', async (req: Request, res: Response) => {
     return res.status(201).json(project)
 });
 
-router.put('/:id', requireRole('Member', 'TenantAdmin', 'SuperAdmin'),
+router.put('/:id', requireRole('MEMBER', 'TENANTADMIN', 'SUPERADMIN'),
     async (req: Request<{ id: string }>, res: Response) => {
         if (!req.user?.tenantId) {
             return res.status(400).json({ error: "Missing tenant" })
@@ -117,7 +117,7 @@ router.put('/:id', requireRole('Member', 'TenantAdmin', 'SuperAdmin'),
 
 
 //DELETE /api/projects/:id - TenantAdmin and above only
-router.delete('/:id', requireRole('TenantAdmin'), async (req: Request<{ id: string }>, res: Response) => {
+router.delete('/:id', requireRole('TENANTADMIN'), async (req: Request<{ id: string }>, res: Response) => {
     if (!req.user?.tenantId) {
         return res.status(400).json({ error: "Missing tenant" })
     }

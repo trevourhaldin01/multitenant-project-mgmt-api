@@ -6,6 +6,12 @@ async function createAuditLog(data: Prisma.AuditLogCreateInput){
     return result;
 }
 
+async function getAuditLogs(){
+    const logs = await prisma.auditLog.findMany();
+    return logs;
+}
+
 export const auditLogRepo = {
     createAuditLog,
+    getAuditLogs
 }
